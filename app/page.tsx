@@ -5,11 +5,11 @@ import Pagination from "@/app/components/Pagination";
 export default async function Home({
   searchParams,
 }: {
-  searchParams: { page?: string };
+  searchParams: Promise<{ page?: string }>;
 }) {
   const ITEMS_PER_PAGE = 10;
 
-  const currentPage = parseInt(searchParams.page || "1", 10);
+  const currentPage = parseInt((await searchParams).page || "1", 10);
   const data = await fetchAnimeList(currentPage, ITEMS_PER_PAGE);
 
   return (

@@ -3,11 +3,11 @@ import Link from "next/link";
 import Image from "next/image";
 
 interface AnimeDetailProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 const AnimeDetailPage = async ({ params }: AnimeDetailProps) => {
-  const { id } = params;
+  const { id } = await params;
   const { data } = await fetchAnimeDetail(id);
 
   const anime = data.attributes;
