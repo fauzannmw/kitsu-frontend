@@ -75,6 +75,7 @@ const MainContainer = styled.main`
   background-color: var(--background);
   color: var(--foreground);
   transition: background-color 0.3s, color 0.3s;
+  min-height: 100vh;
 `;
 
 const BackLink = styled(Link)`
