@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import styled from "styled-components";
 
 interface PaginationProps {
   currentPage: number;
@@ -20,38 +21,46 @@ const Pagination: React.FC<PaginationProps> = ({
   ).filter((page) => page <= totalPages);
 
   return (
-    <div className="flex justify-center items-center gap-2 mt-8">
+    <Container>
       {currentPage > 1 && (
-        <Link
-          href={`?page=${currentPage - 1}`}
-          className="px-4 py-2 bg-blue-100 rounded-full hover:bg-blue-200 text-blue-700"
-        >
-          Previous
-        </Link>
+        <Button href={`?page=${currentPage - 1}`}>Previous</Button>
       )}
       {pageNumbers.map((page) => (
-        <Link
-          key={page}
-          href={`?page=${page}`}
-          className={`px-4 py-2 rounded-full ${
-            page === currentPage
-              ? "bg-blue-500 text-white"
-              : "bg-gray-200 hover:bg-gray-300"
-          }`}
-        >
+        <Button key={page} href={`?page=${page}`} active={page === currentPage}>
           {page}
-        </Link>
+        </Button>
       ))}
       {currentPage < totalPages && (
-        <Link
-          href={`?page=${currentPage + 1}`}
-          className="px-4 py-2 bg-blue-100 rounded-full hover:bg-blue-200 text-blue-700"
-        >
-          Next
-        </Link>
+        <Button href={`?page=${currentPage + 1}`}>Next</Button>
       )}
-    </div>
+    </Container>
   );
 };
 
 export default Pagination;
+
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+`;
+
+const Button = styled(Link).withConfig({
+  shouldForwardProp: (prop) => prop !== "active",
+})<{ active?: boolean }>`
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.2s, color 0.2s;
+
+  background-color: ${(props) => (props.active ? "#2563eb" : "#e5e7eb")};
+  color: ${(props) => (props.active ? "white" : "#374151")};
+
+  &:hover {
+    background-color: ${(props) => (props.active ? "#1e40af" : "#d1d5db")};
+    color: ${(props) => (props.active ? "white" : "#1f2937")};
+  }
+`;
